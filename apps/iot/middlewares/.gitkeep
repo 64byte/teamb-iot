@@ -1,0 +1,1 @@
+Your Slim Framework application's middleware class files will be saved to this directory.

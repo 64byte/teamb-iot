@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> <?php echo $title ?> </title>
+    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
+</head>
+
+<body>
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+        <nav class="navbar header-navbar pcoded-header">
+            <div class="navbar-wrapper">
+
+                <div class="navbar-logo">
+                    <a class="mobile-menu" id="mobile-collapse" target="_self" style="color: #000000; cursor: pointer;">
+                        <i class="ti-menu"></i>
+                    </a>
+                    <a href="/">
+                        <img class="img-fluid" src="/img/logo/logo.png" width="120" height="30" alt="Theme-Logo"/>
+                    </a>
+                    <a class="mobile-options">
+                        <i class="ti-more"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-container container-fluid">
+                    <ul class="nav-right">
+                        <li>
+                            <form id="signout" action="/signout" method="post">
+                                <input type="hidden" name="csrf-token" value="<?php echo $_SESSION['csrf-token'] ?>"/>
+                            </form>
+
+                            <a href="#" onclick="$('#signout').submit(); return false">
+                                <i class="ti-layout-sidebar-left"></i> Signout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <nav class="pcoded-navbar">
+                    <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                    <div class="pcoded-inner-navbar main-menu">
+                        <div class="">
+                            <div class="main-menu-header">
+                                <div class="user-details">
+                                    <span id="more-details"><?php echo $user['fname'] . ' ' . $user['lname'] ?><i
+                                                class="ti-angle-down"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="main-menu-content">
+                                <ul>
+                                    <li class="more-details">
+                                        <a href="/profile"><i class="ti-user"></i>Profile</a>
+                                        <a href="/boards"><i class="ti-tablet"></i>Boards</a>
+                                        <a href="#" onclick="$('#signout').submit(); return false">
+                                            <i class="ti-layout-sidebar-left"></i>Signout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pcoded-navigatio-lavel">Home</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li class="active">
+                                <a href="/">
+                                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                                    <span class="pcoded-mtext">Dashboard</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="pcoded-navigatio-lavel">Public Air Quality Index</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="/aqimaps">
+                                    <span class="pcoded-micon"><i class="ti-map-alt"></i></span>
+                                    <span class="pcoded-mtext">AQI Maps</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/aqichart">
+                                    <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                    <span class="pcoded-mtext">AQI Chart</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="pcoded-navigatio-lavel">Air Pollution</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="/historyap">
+                                    <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                    <span class="pcoded-mtext">Air Pollution Chart</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <?php if (count($boards) > 0) {
+                            for ($i = 0; $i < count($boards); ++$i) { ?>
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li class="pcoded-hasmenu">
+                                        <a href="javascript:void(0)">
+                                            <span class="pcoded-micon"><i class="ti-tablet"></i></span>
+                                            <span class="pcoded-mtext"><?php echo $boards[$i]['name'] ?></span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li>
+                                                <a href="/realtimeap/<?php echo $boards[$i]['board_id'] ?>">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Real Time Air Pollution</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/paqichart/<?php echo $boards[$i]['board_id'] ?>">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Board AQI Chart</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            <?php }
+                        } else { ?>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li>
+                                    <a>
+                                        <span style="width: 30px; display: inline-block;"></span>
+                                        <span class="pcoded-mtext">No Boards</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php } ?>
+
+                        <div class="pcoded-navigatio-lavel">Heart Rate</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="/realtimehr">
+                                    <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                    <span class="pcoded-mtext">Real Time Heart Rate</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/historyhr">
+                                    <span class="pcoded-micon"><i class="ti-archive"></i></span>
+                                    <span class="pcoded-mtext">Historical Heart Rate</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-header start -->
+                                <div class="page-header card">
+                                    <div class="row align-items-end">
+                                        <div class="col-lg-8">
+                                            <div class="page-header-title">
+                                                <i class="icofont icofont-android-tablet bg-c-blue"></i>
+                                                <div class="d-inline">
+                                                    <h4>User Boards</h4>
+                                                    <span><?php echo $user['fname']?>'s boards</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="page-header-breadcrumb">
+                                                <ul class="breadcrumb-title">
+                                                    <li class="breadcrumb-item">
+                                                        <a href="/">
+                                                            <i class="icofont icofont-home"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="/profile">Profile</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Page-header end -->
+
+                                <!-- Page body start -->
+                                <div class="page-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <!-- Basic Form Inputs card start -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>BOARD LIST</h5>
+                                                </div>
+                                                <div class="card-block table-border-style">
+                                                    <?php if (count($boards) > 0) { ?>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Name</th>
+                                                                <th>MAC ADDRESS</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <?php for ($i=0; $i<count($boards); ++$i) { ?>
+                                                            <tr>
+                                                                <th scope="row"><?php echo $i+1; ?></th>
+                                                                <td><?php echo $boards[$i]['name'] ?></td>
+                                                                <td><?php echo $boards[$i]['mac_address'] ?></td>
+                                                            </tr>
+                                                            <?php } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                        <h4 style="text-align: center; height: 200px; line-height: 150px">There is no your Board</h4>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                            <!-- Basic Form Inputs card end -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Page body end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixed-button">
+            <a href="#homeup" id="homeup" class="btn btn-md btn-primary">
+                Top
+            </a>
+        </div>
+    </div>
+
+    <!-- Warning Section Starts -->
+    <!-- Older IE warning message -->
+    <!-- Warning Section Ends -->
+    <!-- Required Jquery -->
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="js/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="js/modernizr/modernizr.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript " src="js/SmoothScroll.js"></script>
+    <script src="js/pcoded.min.js"></script>
+    <script src="js/demo-12.js"></script>
+    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script>
+        var $window = $(window);
+        var nav = $('.fixed-button');
+        $window.scroll(function(){
+            if ($window.scrollTop() >= 200) {
+                nav.addClass('active');
+            }
+            else {
+                nav.removeClass('active');
+            }
+        });
+
+        $(document).ready(function() {
+            $('#homeup').click(function(){
+                $('body,html').animate({
+                    scrollTop : 0
+                }, 800);
+                return false;
+            });
+        });;
+
+    </script>
+</body>
+
+</html>

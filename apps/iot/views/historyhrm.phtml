@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> SOMI </title>
+    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
+
+    <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <style>
+        .entypo-heart:before{
+            content:"\2764";
+            font-size: 3em;
+            color: #ffb5dd;
+        }
+
+        .entypo-interval:before{
+            content:"\21AD";
+            font-size: 3em;
+            color: #ffb5dd;
+        }
+
+        .entypo-Time:before{
+            content:"\2609";
+            font-size: 3em;
+            color: #ffb5dd;
+        }
+    </style>
+</head>
+
+<body>
+<div id="markermap" class="set-map" style="width: 925px; height: 600px"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-fox9JsAWvfxE5PJJnjgYlYDwNJD9GUY&callback=initialize" async defer></script>
+
+<script>
+    var map = null;
+    var markers = [];
+    var booleanMarkers = [];
+
+    function initialize() {
+        var centerLatLng = new google.maps.LatLng(32.882422, -117.234818);
+        map = new google.maps.Map(document.getElementById('markermap'), {
+            zoom: 15,
+            center: centerLatLng,
+        });
+
+
+        map.addListener('idle', redraw);
+        $('#legends').show();
+    }
+
+    function redraw(event) {
+        for (var i = 0; i < markers.length; i++) {
+            if (map.getBounds().contains(markers[i].getPosition())) {
+                if (booleanMarkers[i] === false) {
+                    booleanMarkers[i] = true;
+                    markers[i].setMap(map);
+                }
+            } else {
+                if (booleanMarkers[i] === true) {
+                    booleanMarkers[i] = false;
+                    markers[i].setMap(null);
+                }
+            }
+        }
+    }
+
+    function addMarker(location) {
+        marker = new google.maps.Marker({
+            position: location,
+            map: map,
+        });
+
+        markers.push(marker);
+
+        marker.setMap(map);
+
+        return marker;
+    }
+
+    function showMarkers() {
+        setMapOnAll(map);
+    }
+
+    function clearNoContainMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            if (!map.getBounds().contains(markers[i].getPosition())) {
+                markers[i].setMap(null);
+            }
+        }
+    }
+
+    function showContainMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            if (map.getBounds().contains(markers[i].getPosition())) {
+                if (booleanMarkers[i] === false) {
+                    booleanMarkers[i] = true;
+                    markers[i].setMap(map);
+                }
+            } else {
+                if (booleanMarkers[i] === true) {
+                    booleanMarkers[i] = false;
+                    markers[i].setMap(null);
+                }
+            }
+        }
+    }
+
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+
+    function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
+
+    $(document).ready(function() {
+        d3.csv("/api/users/<?php echo $user['user_id'] ?>/hrdata?csv=true&orderby=true&startDate=<?php echo $startDate ?>&endDate=<?php echo $endDate?>", function (d) {
+            d.hr = +d.hr;
+            d.rri = +d.rri;
+            d.LatLng = new google.maps.LatLng(d.lat, d.lng);
+            return d;
+        }, function (err, data) { // dataType
+            if (err)
+                throw err;
+
+            map.setCenter(data[0].LatLng);
+
+            data.forEach(function (d) {
+                google.maps.event.addListener(addMarker(d.LatLng), 'click', function() {
+
+                    var node        = '<span class="entypo-heart"></span><l style="font-size: 2em;"> ' + d.hr + ' BPM</l><br><span class="entypo-interval"></span><l style="font-size: 2em;"> ' + d.rri + ' MS</l><br><span class="entypo-Time"></span><l style="font-size: 2em;">    ' + d.timestamp + '</l>'
+                    var infoWindow  = new google.maps.InfoWindow();
+
+                    infoWindow.setContent(node);
+                    infoWindow.open(this.getMap(), this);
+                });
+            });
+
+            booleanMarkers = Array.apply(null, Array(data.length)).map(Boolean);
+        });
+    });
+</script>
+</body>
+</html>

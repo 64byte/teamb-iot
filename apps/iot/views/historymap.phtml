@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> SOMI </title>
+    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
+
+    <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div id="markermap" class="set-map" style="width: 925px; height: 600px"></div>
+    <div id="legends" style="display: none;">
+        <div class="row">
+            <div class="col-md-12"><span style="background-color: green; padding-left: 125px; color: white;">Good</span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><span style="background-color: gold; padding-left: 104px; color: white;">Moderate</span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><span style="background-color: orange; padding-left: 1px; color: white;">Unhealthy for Sensitive Groups</span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><span style="background-color: red; padding-left: 103px; color: white;">Unhealthy</span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><span style="background-color: purple; padding-left: 79px; color: white;">Very Unhealthy</span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><span style="background-color: maroon; padding-left: 98px; color: white;">Hazardous</span></div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-fox9JsAWvfxE5PJJnjgYlYDwNJD9GUY&callback=initialize" async defer></script>
+
+    <script>
+        var map = null;
+        var poly = null;
+        var markers = [];
+        var booleanMarkers = [];
+
+        function initialize() {
+            var centerLatLng = new google.maps.LatLng(32.882422, -117.234818);
+            map = new google.maps.Map(document.getElementById('markermap'), {
+                zoom: 15,
+                center: centerLatLng,
+            });
+
+
+            map.addListener('idle', redraw);
+            map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('legends'));
+            $('#legends').show();
+
+            initializeAQIImages();
+        }
+
+        function redraw(event) {
+            for (var i = 0; i < markers.length; i++) {
+                if (map.getBounds().contains(markers[i].getPosition())) {
+                    if (booleanMarkers[i] === false) {
+                        booleanMarkers[i] = true;
+                        markers[i].setMap(map);
+                    }
+                } else {
+                    if (booleanMarkers[i] === true) {
+                        booleanMarkers[i] = false;
+                        markers[i].setMap(null);
+                    }
+                }
+            }
+        }
+
+        var maroon = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22maroon%%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3C%2Fsvg%3E';
+        var purple = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22purple%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3C%2Fsvg%3E';
+        var red = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22red%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3C%2Fsvg%3E';
+        var orange = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22orange%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3C%2Fsvg%3E';
+        var gold = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%gold%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3C%2Fsvg%3E';
+        var green = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22green%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3C%2Fsvg%3E';
+
+        var AQI_IMAGES = [];
+
+        function initializeAQIImages() {
+            AQI_IMAGES[0] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[0][i] = aqiImage(i, 'green');
+            }
+
+            AQI_IMAGES[1] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[1][i] = aqiImage(i, 'gold');
+            }
+
+            AQI_IMAGES[2] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[2][i] = aqiImage(i, 'orange');
+            }
+
+            AQI_IMAGES[3] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[3][i] = aqiImage(i, 'red');
+            }
+
+            AQI_IMAGES[4] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[4][i] = aqiImage(i, 'purple');
+            }
+
+            AQI_IMAGES[5] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[5][i] = aqiImage(i, 'maroon');
+            }
+        }
+
+        function aqiImage(value, color) {
+            return 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22' + color + '%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3Ctext%20transform%3D%22translate(19%2018.5)%22%20fill%3D%22%23fff%22%20style%3D%22font-family%3A%20Arial%2C%20sans-serif%3Bfont-weight%3Abold%3Btext-align%3Acenter%3B%22%20font-size%3D%2212%22%20text-anchor%3D%22middle%22%3E' + value + '%3C%2Ftext%3E%3C%2Fsvg%3E';
+        }
+
+        function addMarker(location, label) {
+/*            var image = null;
+            if (label >= 301) {
+                image = maroon;
+            } else if (label <= 300 && label >= 201) {
+                image = purple;
+            } else if (label <= 200 && label >= 151) {
+                image = red;
+            } else if (label <= 150 && label >= 101) {
+                image = orange;
+            } else if (label <= 100 && label >= 51) {
+                image = gold;
+            } else if (label <= 50 && label >= 0) {
+                image = green;
+            } */
+
+            if (label >= 301) {
+                if (label >= 501)
+                    label = 500;
+
+                image = AQI_IMAGES[5][label];
+            } else if (label <= 300 && label >= 201) {
+                image = AQI_IMAGES[4][label];
+            } else if (label <= 200 && label >= 151) {
+                image = AQI_IMAGES[3][label];
+            } else if (label <= 150 && label >= 101) {
+                image = AQI_IMAGES[2][label];
+            } else if (label <= 100 && label >= 51) {
+                image = AQI_IMAGES[1][label];
+            } else if (label <= 50 && label >= 0) {
+                image = AQI_IMAGES[0][label];
+            }
+
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: image
+            });
+
+            markers.push(marker);
+
+            return marker;
+        }
+
+        function showMarkers() {
+            setMapOnAll(map);
+        }
+
+        function clearNoContainMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                if (!map.getBounds().contains(markers[i].getPosition())) {
+                    markers[i].setMap(null);
+                } else {
+                }
+            }
+        }
+
+        function showContainMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                if (map.getBounds().contains(markers[i].getPosition())) {
+                    if (booleanMarkers[i] === false) {
+                        booleanMarkers[i] = true;
+                        markers[i].setMap(map);
+                    }
+                } else {
+                    if (booleanMarkers[i] === true) {
+                        booleanMarkers[i] = false;
+                        markers[i].setMap(null);
+                    }
+                }
+            }
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+        }
+
+        google.charts.load('current', {'packages':['corechart']});
+
+        function drawChart(marker) {
+            markerLat = marker.getPosition().lat().toFixed(7);
+            markerLng = marker.getPosition().lng().toFixed(7);
+
+            <?php if (!isset($bid)) { ?>
+            var link = '/api/boards/aqidata?orderby=true&startDate=<?php echo $startDate ?>&endDate=<?php echo $endDate?>&lat=' + markerLat + '&lng=' + markerLng;
+            <?php } else { ?>
+            var link = '/api/users/<?php echo $user['user_id']?>/boards/<?php echo $bid ?>/aqidata?orderby=true&startDate=<?php echo $startDate ?>&endDate=<?php echo $endDate?>&lat=' + markerLat + '&lng=' + markerLng;
+            <?php } ?>
+
+            var jsonData = $.ajax({
+                url: link,
+                dataType: 'json',
+            }).done(function (results) {
+                var dataSet = results.data.aqidata;
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('date', 'Date');
+                data.addColumn('number', 'CO');
+                data.addColumn('number', 'NO2');
+                data.addColumn('number', 'O3');
+                data.addColumn('number', 'SO2');
+                data.addColumn('number', 'PM2.5');
+
+                var board_id = null;
+                dataSet.forEach(function (d) {
+                    data.addRow([new Date(d.aqidata_timestamp), +d.co, +d.no2, +d.o3, +d.so2, +d.pm25]);
+                    board_id = d.board_id;
+                });
+
+                var options = {
+                    'title': 'Air Quality Index',
+                    hAxis: {
+                        title: 'Time',
+                        format: 'H:mm a',
+                        gridlines: {
+                            count: -1
+                        },
+                        textStyle: {
+                            color: 'black',
+                            fontSize: 9
+                        }
+                    },
+                    vAxis: {
+                        title: 'AQI'
+                    },
+                    explorer: {
+                        actions: ['dragToZoom', 'rightClickToReset'],
+                        axis: 'horizontal',
+                        keepInBounds: true,
+                        maxZoomIn: 4.0
+                    },
+                    'width': 400,
+                    'height': 250,
+                    pointsVisible: true
+                };
+
+
+                var jsonUser = $.ajax({
+                    url: '/api/boards/' + board_id + '/users',
+                    dataType: 'json',
+                }).done(function (results) {
+                    var userInfo = results.data.users[0];
+
+                    var infoNode = document.createElement('h4');
+                    infoNode.append(userInfo.fname + "'s " + userInfo.name);
+                    infoNode.style.textAlign = "center";
+
+                    var chartNode = document.createElement('div');
+                    var infoWindow = new google.maps.InfoWindow(),
+                        chart = new google.visualization.LineChart(chartNode);
+
+                    var node = document.createElement('div');
+                    node.appendChild(infoNode);
+                    node.appendChild(chartNode);
+
+                    // Instantiate and draw the chart.
+                    chart.draw(data, options);
+                    infoWindow.setContent(node);
+                    infoWindow.open(marker.getMap(), marker);
+                });
+            });
+        }
+
+        $(document).ready(function() {
+            <?php if (!isset($bid)) { ?>
+            d3.csv("/api/boards/aqidata?csv=true&orderby=true&startDate=<?php echo $startDate ?>&endDate=<?php echo $endDate?>", function (d) {
+                d.o3 = +d.o3;
+                d.no2 = +d.no2;
+                d.co = +d.co;
+                d.so2 = +d.so2;
+                d.pm25 = +d.pm25;
+                d.lat = +d.lat;
+                d.lng = +d.lng;
+                d.LatLng = new google.maps.LatLng(d.lat, d.lng);
+                return d;
+            }, function (err, data) { // dataType
+                if (err)
+                    throw err;
+
+                map.setCenter(data[0].LatLng);
+
+                data.forEach(function (d) {
+                    google.maps.event.addListener(addMarker(d.LatLng, d['<?php echo $dataType ?>']), 'click', function() {
+                        drawChart(this);
+                    });
+                });
+
+                booleanMarkers = Array.apply(null, Array(data.length)).map(Boolean);
+            });
+            <?php } else { ?>
+            d3.csv("/api/users/<?php echo $user['user_id']?>/boards/<?php echo $bid ?>/aqidata?csv=true&orderby=true&startDate=<?php echo $startDate ?>&endDate=<?php echo $endDate?>", function (d) {
+                d.o3 = +d.o3;
+                d.no2 = +d.no2;
+                d.co = +d.co;
+                d.so2 = +d.so2;
+                d.pm25 = +d.pm25;
+                d.lat = +d.lat;
+                d.lng = +d.lng;
+                d.LatLng = new google.maps.LatLng(d.lat, d.lng);
+                return d;
+            }, function (err, data) { // dataType
+                if (err)
+                    throw err;
+
+                map.setCenter(data[0].LatLng);
+
+                data.forEach(function (d) {
+                    google.maps.event.addListener(addMarker(d.LatLng, d['<?php echo $dataType ?>']), 'click', function() {
+                        drawChart(this);
+                    });
+                });
+
+                booleanMarkers = Array.apply(null, Array(data.length)).map(Boolean);
+            });
+            <?php } ?>
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+    "name": "zacao/slimvc",
+    "description": "PHP Slim MVC Skeleton/Boilerplate Project",
+    "keywords": ["slim", "mvc", "slimvc", "slim-mvc", "slimmvc", "router", "skeleton", "boilerplate"],
+    "type": "project",
+    "homepage": "https://github.com/zacao/slimvc",
+    "license":"MIT",
+    "autoload": {
+        "psr-4": {
+            "Slimvc\\": "lib/Slimvc",
+            "Story\\": "lib/Story",
+            "Iot\\Controller\\": "apps/iot/controllers",
+            "Iot\\Model\\": "apps/iot/models",
+            "Iot\\Middleware\\": "apps/iot/middlewares"
+        }
+    },
+    "require": {
+        "slim/slim": "2.*",
+        "firebase/php-jwt": "^5.0",
+        "phpmailer/phpmailer": "^6.0"
+    },
+    "require-dev": {
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
+        }
+    }
+}

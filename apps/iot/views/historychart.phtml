@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> SOMI </title>
+    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
+
+    <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+<div id="chart" style="width: 925px; height: 600px"></div>
+
+<script>
+    google.charts.load('current', {'packages':['corechart'], 'callback': drawChart});
+
+    function drawChart() {
+        var link = '/api/boards/<?php echo $bid ?>/aqidata?orderby=true&startDate=<?php echo $startDate ?>&endDate=<?php echo $endDate?>';
+
+        var jsonData = $.ajax({
+            url: link,
+            dataType: 'json',
+        }).done(function (results) {
+
+            var dataSet = results.data.aqidata;
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Date');
+            data.addColumn('number', 'CO');
+            data.addColumn('number', 'NO2');
+            data.addColumn('number', 'O3');
+            data.addColumn('number', 'SO2');
+            data.addColumn('number', 'PM2.5');
+
+            var board_id = null;
+            dataSet.forEach(function (d) {
+                data.addRow([new Date(d.aqidata_timestamp), +d.co, +d.no2, +d.o3, +d.so2, +d.pm25]);
+                board_id = d.board_id;
+            });
+
+            var options = {
+                'title': 'Air Quality Index',
+                hAxis: {
+                    title: 'Time',
+                    format: 'H:mm a',
+                    gridlines: {
+                        count: -1
+                    },
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 9
+                    }
+                },
+                vAxis: {
+                    title: 'AQI'
+                },
+                explorer: {
+                    actions: ['dragToZoom', 'rightClickToReset'],
+                    axis: 'horizontal',
+                    keepInBounds: true,
+                    maxZoomIn: 4.0
+                },
+                'width': 600,
+                'height': 400,
+                pointsVisible: true
+            };
+
+
+            var jsonUser = $.ajax({
+                url: '/api/boards/' + board_id + '/users',
+                dataType: 'json',
+            }).done(function (results) {
+                var userInfo = results.data.users[0];
+
+                var infoNode = document.createElement('h3');
+                infoNode.append(userInfo.fname + "'s " + userInfo.name);
+                infoNode.style.textAlign = "center";
+
+                var chartNode = document.createElement('div');
+                var chart = new google.visualization.LineChart(chartNode);
+
+                var node = document.getElementById('chart');
+                node.appendChild(infoNode);
+                node.appendChild(chartNode);
+
+                // Instantiate and draw the chart.
+                chart.draw(data, options);
+            });
+        });
+    }
+
+    $(document).ready(function() {
+
+    });
+</script>
+</body>
+</html>

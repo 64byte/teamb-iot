@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> <?php echo $title ?> </title>
+    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="/icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.css">
+
+    <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <style>
+
+        #legends {
+            border: 15px;
+            background: white;
+            margin: 5px;
+            transition: all 0.5s ease  0.5s !important;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-container navbar-wrapper">
+        <nav class="navbar header-navbar pcoded-header">
+            <div class="navbar-wrapper">
+
+                <div class="navbar-logo">
+                    <a class="mobile-menu" id="mobile-collapse" target="_self" style="color: #000000; cursor: pointer;">
+                        <i class="ti-menu"></i>
+                    </a>
+                    <a href="/">
+                        <img class="img-fluid" src="/img/logo/logo.png" width="120" height="30" alt="Theme-Logo"/>
+                    </a>
+                    <a class="mobile-options">
+                        <i class="ti-more"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-container container-fluid">
+                    <ul class="nav-right">
+                        <li>
+                            <form id="signout" action="/signout" method="post">
+                                <input type="hidden" name="csrf-token" value="<?php echo $_SESSION['csrf-token'] ?>"/>
+                            </form>
+
+                            <a href="#" onclick="$('#signout').submit(); return false">
+                                <i class="ti-layout-sidebar-left"></i> Signout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <nav class="pcoded-navbar">
+                    <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                    <div class="pcoded-inner-navbar main-menu">
+                        <div class="">
+                            <div class="main-menu-header">
+                                <div class="user-details">
+                                    <span id="more-details"><?php echo $user['fname'] . ' ' . $user['lname'] ?><i
+                                                class="ti-angle-down"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="main-menu-content">
+                                <ul>
+                                    <li class="more-details">
+                                        <a href="/profile"><i class="ti-user"></i>Profile</a>
+                                        <a href="/boards"><i class="ti-tablet"></i>Boards</a>
+                                        <a href="#" onclick="$('#signout').submit(); return false">
+                                            <i class="ti-layout-sidebar-left"></i>Signout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pcoded-navigatio-lavel">Home</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li class="active">
+                                <a href="/">
+                                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                                    <span class="pcoded-mtext">Dashboard</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="pcoded-navigatio-lavel">Air Quality Index</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="/aqimaps">
+                                    <span class="pcoded-micon"><i class="ti-map-alt"></i></span>
+                                    <span class="pcoded-mtext">Real-time AQI Map</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/historyaqi">
+                                    <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                    <span class="pcoded-mtext">Historical AQI Map</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="pcoded-navigatio-lavel">User Air Pollution</div>
+                        <?php if (count($boards) > 0) {
+                            for ($i = 0; $i < count($boards); ++$i) { ?>
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li class="pcoded-hasmenu">
+                                        <a href="javascript:void(0)">
+                                            <span class="pcoded-micon"><i class="ti-tablet"></i></span>
+                                            <span class="pcoded-mtext"><?php echo $boards[$i]['name'] ?></span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li>
+                                                <a href="/realtimeap/<?php echo $boards[$i]['board_id'] ?>">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Real-Time Air Pollution Chart</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/historyap/<?php echo $boards[$i]['board_id'] ?>">
+                                                    <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                                    <span class="pcoded-mtext">Historical Air Pollution Chart</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/paqichart/<?php echo $boards[$i]['board_id'] ?>">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Historical AQI Chart</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            <?php }
+                        } else { ?>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li>
+                                    <a>
+                                        <span style="width: 30px; display: inline-block;"></span>
+                                        <span class="pcoded-mtext">No Boards</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php } ?>
+
+                        <div class="pcoded-navigatio-lavel">User Healthcare information</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="/realtimehr">
+                                    <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                    <span class="pcoded-mtext">Real-Time Heart Rate</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/historyhr">
+                                    <span class="pcoded-micon"><i class="ti-archive"></i></span>
+                                    <span class="pcoded-mtext">Historical Heart Rate</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-header start -->
+                                <div class="page-header card">
+                                    <div class="row align-items-end">
+                                        <div class="col-lg-8">
+                                            <div class="page-header-title">
+                                                <i class="icofont icofont-map bg-c-pink"></i>
+                                                <div class="d-inline">
+                                                    <h4>Air Quality Index Maps</h4>
+                                                    <span>public Air Quality Index Maps</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="page-header-breadcrumb">
+                                                <ul class="breadcrumb-title">
+                                                    <li class="breadcrumb-item">
+                                                        <a href="/">
+                                                            <i class="icofont icofont-home"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="/aqimaps">AQI Maps</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Page-header end -->
+
+
+
+                                <!-- Page body start -->
+                                <div class="page-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Realtime AQI Map (PM 2.5)</h5>
+                                                    <div class="d-flex justify-content-end">
+                                                        <div class="checkbox-fade fade-in-primary">
+                                                            <label>
+                                                                <input id="fixCheckbox" type="checkbox" value="">
+                                                                <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+                                                                <span class="text-inverse" style="width: 125px">Fix my location</span>
+                                                            </label>
+                                                        </div>
+                                                        <select id="boardList">
+                                                            <?php if (count($boards) > 0) {  ?>
+                                                            <option value="<?php echo $boards[0]['board_id'] ?>"><?php echo $boards[0]['name'] ?></option>
+                                                            <?php     for ($i = 1; $i < count($boards); ++$i) { ?>
+                                                            <option value="<?php echo $boards[$i]['board_id'] ?>"><?php echo $boards[$i]['name'] ?></option>
+                                                            <?php }
+                                                                } ?>
+                                                        </select>
+                                                        <button class="btn btn-info" onclick="goToTheBoardPosition()" style="margin-left: 5px; margin-right: 5px">Search</button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-block">
+                                                    <div id="markermap" class="set-map" style="height: 500px;"></div>
+                                                    <div id="legends" style="display: none;">
+                                                        <div class="row">
+                                                            <div class="col-md-12"><span style="background-color: green; padding-left: 125px; color: white;">Good</span></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12"><span style="background-color: gold; padding-left: 104px; color: white;">Moderate</span></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12"><span style="background-color: orange; padding-left: 1px; color: white;">Unhealthy for Sensitive Groups</span></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12"><span style="background-color: red; padding-left: 103px; color: white;">Unhealthy</span></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12"><span style="background-color: purple; padding-left: 79px; color: white;">Very Unhealthy</span></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12"><span style="background-color: maroon; padding-left: 98px; color: white;">Hazardous</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Page body end -->
+                            </div>
+                        </div>
+                        <!-- Main-body end -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixed-button">
+            <a href="#homeup" id="homeup" class="btn btn-md btn-primary">
+                Top
+            </a>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-fox9JsAWvfxE5PJJnjgYlYDwNJD9GUY&callback=initialize" async defer></script>
+
+    <script>
+        var map = null;
+
+        var markers = new Map();
+        var booleanMarkers = new Map();
+
+        function goToTheBoardPosition() {
+            if ($('#boardList').val() === null) {
+                alert("You have to select your board");
+                return;
+            }
+
+            var selectedValue = $('#boardList').val();
+            dataSet.forEach(function (value, index, array) {
+                if (value.bid == selectedValue) {
+                    map.setCenter(value.LatLng);
+                }
+            });
+        }
+
+        function initialize() {
+            var centerLatLng = new google.maps.LatLng(32.882422, -117.234818);
+            map = new google.maps.Map(document.getElementById('markermap'), {
+                zoom: 15,
+                center: centerLatLng,
+            });
+
+
+            map.addListener('idle', redraw);
+            map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('legends'));
+            $('#legends').show();
+
+            initializeAQIImages();
+        }
+
+        function redraw(event) {
+            markers.forEach(function (value, index, func) {
+                if (map.getBounds().contains(value.getPosition())) {
+                    if (booleanMarkers.get(index) === false) {
+                        booleanMarkers.set(index, true);
+                        markers.get(index).setMap(map);
+                    }
+                } else {
+                    if (booleanMarkers.get(index) === true) {
+                        booleanMarkers.set(index, false);
+                        markers.get(index).setMap(null);
+                    }
+                }
+            });
+
+/*            dataSet.forEach(function (d) {
+                if (map.getBounds().contains(markers[d.aid].getPosition())) {
+                    if (booleanMarkers[d.aid] === false) {
+                        booleanMarkers[d.aid] = true;
+                        markers[d.aid].setMap(map);
+                    }
+                } else {
+                    if (booleanMarkers[d.aid] === true) {
+                        booleanMarkers[d.aid] = false;
+                        markers[d.aid].setMap(null);
+                    }
+                }
+            }); */
+
+/*            for (var i = 0; i < markers.length; i++) {
+                if (map.getBounds().contains(markers[i].getPosition())) {
+                    if (booleanMarkers[i] === false) {
+                        booleanMarkers[i] = true;
+                        markers[i].setMap(map);
+                    }
+                } else {
+                    if (booleanMarkers[i] === true) {
+                        booleanMarkers[i] = false;
+                        markers[i].setMap(null);
+                    }
+                }
+            } */
+        }
+
+        var AQI_IMAGES = [];
+
+        function initializeAQIImages() {
+            AQI_IMAGES[0] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[0][i] = aqiImage(i, 'green');
+            }
+
+            AQI_IMAGES[1] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[1][i] = aqiImage(i, 'gold');
+            }
+
+            AQI_IMAGES[2] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[2][i] = aqiImage(i, 'orange');
+            }
+
+            AQI_IMAGES[3] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[3][i] = aqiImage(i, 'red');
+            }
+
+            AQI_IMAGES[4] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[4][i] = aqiImage(i, 'purple');
+            }
+
+            AQI_IMAGES[5] = [];
+            for (var i=0; i<=501; ++i) {
+                AQI_IMAGES[5][i] = aqiImage(i, 'maroon');
+            }
+        }
+
+        function aqiImage(value, color) {
+            return 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22' + color + '%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3Ctext%20transform%3D%22translate(19%2018.5)%22%20fill%3D%22%23fff%22%20style%3D%22font-family%3A%20Arial%2C%20sans-serif%3Bfont-weight%3Abold%3Btext-align%3Acenter%3B%22%20font-size%3D%2212%22%20text-anchor%3D%22middle%22%3E' + value + '%3C%2Ftext%3E%3C%2Fsvg%3E';
+        }
+
+        function addMarker(bid, location, label) {
+            var image = null;
+            if (label >= 301) {
+                if (label >= 501)
+                    label = 500;
+
+                image = AQI_IMAGES[5][label];
+            } else if (label <= 300 && label >= 201) {
+                image = AQI_IMAGES[4][label];
+            } else if (label <= 200 && label >= 151) {
+                image = AQI_IMAGES[3][label];
+            } else if (label <= 150 && label >= 101) {
+                image = AQI_IMAGES[2][label];
+            } else if (label <= 100 && label >= 51) {
+                image = AQI_IMAGES[1][label];
+            } else if (label <= 50 && label >= 0) {
+                image = AQI_IMAGES[0][label];
+            }
+
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: image
+            });
+
+            markers.set(bid, marker);
+
+            return marker;
+        }
+
+        function showMarkers() {
+            setMapOnAll(map);
+        }
+
+        function clearNoContainMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                if (!map.getBounds().contains(markers[i].getPosition())) {
+                    markers[i].setMap(null);
+                }
+            }
+        }
+
+        function showContainMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                if (map.getBounds().contains(markers[i].getPosition())) {
+                    if (booleanMarkers[i] === false) {
+                        booleanMarkers[i] = true;
+                        markers[i].setMap(map);
+                    }
+                } else {
+                    if (booleanMarkers[i] === true) {
+                        booleanMarkers[i] = false;
+                        markers[i].setMap(null);
+                    }
+                }
+            }
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+        }
+    </script>
+
+    <!-- Warning Section Starts -->
+    <!-- Older IE warning message -->
+    <!-- Warning Section Ends -->
+    <!-- Required Jquery -->
+    <script type="text/javascript" src="/js/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="/js/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- modernizr js -->
+    <script type="text/javascript" src="/js/modernizr/modernizr.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript " src="/js/SmoothScroll.js"></script>
+    <script src="/js/pcoded.min.js"></script>
+    <script src="/js/demo-12.js"></script>
+    <script src="/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+
+        var $window = $(window);
+        var nav = $('.fixed-button');
+        $window.scroll(function(){
+            if ($window.scrollTop() >= 200) {
+                nav.addClass('active');
+            }
+            else {
+                nav.removeClass('active');
+            }
+        });
+
+        setInterval(function() {
+
+            var nowTime = new Date();
+            dataSet.forEach(function (df, index, object) {
+                var mk = markers.get(df.bid);
+                if (mk != null) {
+                    mk.setMap(null);
+                    mk = null;
+                    markers.delete(df.bid);
+                }
+                booleanMarkers.delete(df.bid);
+            });
+            dataSet = [];
+
+            d3.csv("/api/boards/aqidata?csv=true&orderby=true&dist=true", function (d) {
+                d.aid = +d.aid;
+                d.bid = +d.bid;
+                d.o3 = +d.o3;
+                d.no2 = +d.no2;
+                d.co = +d.co;
+                d.so2 = +d.so2;
+                d.pm25 = +d.pm25;
+                d.lat = +d.lat;
+                d.lng = +d.lng;
+                d.LatLng = null;
+                d.dataTime = new Date(d.timestamp);
+                d.LatLng = new google.maps.LatLng(d.lat, d.lng);
+                return d;
+            }, function (err, data) {
+                if (err)
+                    throw err;
+
+                data.forEach(function (d) {
+                    if ((nowTime.getTime() - 5000) < d.dataTime.getTime()) {
+                        dataSet.push(d);
+                        booleanMarkers.set(d.bid, false);
+                        google.maps.event.addListener(addMarker(d.bid, d.LatLng, d.pm25), 'click', function () {
+                            var newTime = new Date();
+                            var end = Math.round((newTime.getTime() / 1000));
+                            var start = end - (60 * 60 * 3);
+                            window.open("/historychart?bid=" + d.bid + "&startDate=" + start + "&endDate=" + end + "&lat=" + d.lat + "&lng=" + d.lng, "MsgWindow", "width=600,height=500");
+                        });
+
+                        if (document.getElementById("fixCheckbox").checked === true) {
+                            if ($('#boardList').val() === null) {
+                                alert("You have to select your board");
+                                return;
+                            }
+
+                            var selectedValue = $('#boardList').val();
+                            dataSet.forEach(function (value, index, array) {
+                                if (value.bid == selectedValue) {
+                                    map.setCenter(value.LatLng);
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        }, 1000);
+
+        var dataSet = [];
+        $(document).ready(function() {
+            $('#homeup').click(function(){
+                $('body,html').animate({
+                    scrollTop : 0
+                }, 800);
+                return false;
+            });
+
+            d3.csv("/api/boards/aqidata?csv=true&orderby=true&dist=true", function (d) {
+                d.aid = +d.aid;
+                d.bid = +d.bid;
+                d.o3 = +d.o3;
+                d.no2 = +d.no2;
+                d.co = +d.co;
+                d.so2 = +d.so2;
+                d.pm25 = +d.pm25;
+                d.lat = +d.lat;
+                d.lng = +d.lng;
+                d.LatLng = new google.maps.LatLng(d.lat, d.lng);
+                d.dataTime = new Date(d.timestamp);
+                return d;
+            }, function(err, data) {
+                if (err)
+                    throw err;
+
+                data.forEach(function (d) {
+                    var nowTime = new Date();
+                    if ((nowTime.getTime() - 5000) < d.dataTime.getTime()) {
+                        dataSet.push(d);
+                        booleanMarkers.set(d.bid, false);
+                        google.maps.event.addListener(addMarker(d.bid, d.LatLng, d.pm25), 'click', function () {
+                            var newTime = new Date();
+                            var end = Math.round((newTime.getTime() / 1000));
+                            var start = end - (60 * 60 * 3);
+                            window.open("/historychart?bid=" + d.bid + "&startDate=" + start + "&endDate=" + end + "&lat=" + d.lat + "&lng=" + d.lng, "MsgWindow", "width=600,height=500");
+                        });
+
+                        <?php if (count($boards)) ?>
+                        <?php for ($i = 0; $i<count($boards); $i++) { ?>
+                            if (<?php echo $boards[$i]["board_id"]?> === d.bid) {
+                                map.setCenter(d.LatLng);
+                            }
+                        <?php } ?>
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

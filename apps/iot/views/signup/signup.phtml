@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> <?php echo $title ?> </title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Google font--><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- date picker -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/gh/atatanasov/gijgo@1.8.0/dist/combined/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://cdn.jsdelivr.net/gh/atatanasov/gijgo@1.8.0/dist/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/bootstrap-birthday.js"></script>
+
+</head>
+
+<body class="fix-menu">
+<section class="login p-fixed d-flex text-center common-img-bg">
+    <!-- Container-fluid starts -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Authentication card start -->
+                <div class="signup-card card-block auth-body mr-auto ml-auto">
+                    <form class="md-float-material" action="/signup" method="post">
+                        <input type="hidden" name="csrf-token" value="<?php echo $_SESSION['csrf-token']?>"/>
+                        <div class="text-center">
+                            <a href="/">
+                                <img src="img/logo/logo.png" width="170" height="60" alt="logo.png">
+                            </a>
+                        </div>
+                        <div class="auth-box">
+                            <div class="row m-b-20">
+                                <div class="col-md-12">
+                                    <h3 class="text-center txt-primary">Welcome to SOMI!</h3>
+                                </div>
+                            </div>
+
+                            <?php
+                            if (isset($_SESSION['slim.flash']['alert'])) {
+                                echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                                echo '    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin: 0">';
+                                echo '        <span aria-hidden="true">&times;</span>';
+                                echo '    </button>';
+                                echo '<strong>'.$_SESSION["slim.flash"]["alert"].'</strong>';
+                                echo '</div>';
+                            }
+                            ?>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="email" value="" placeholder="-----Your Email Address-----">
+                                <span class="md-line"></span>
+                            </div>
+                            <div class="row">
+                                <div class="input-group col-md-6">
+                                    <input type="password" class="form-control" name="password" value="" placeholder="-----Choose Password-----">
+                                    <span class="md-line"></span>
+                                </div>
+                                <div class="input-group col-md-6">
+                                    <input type="password" class="form-control" name="confirm_password" value="" placeholder="-----Confirm Password-----">
+                                    <span class="md-line"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-group col-md-6">
+                                    <input type="text" class="form-control" name="fname" value="" placeholder="-----First Name-----">
+                                    <span class="md-line"></span>
+                                </div>
+                                <div class="input-group col-md-6">
+                                    <input type="text" class="form-control" name="lname" value="" placeholder="-----Last Name-----">
+                                    <span class="md-line"></span>
+                                </div>
+                            </div>
+
+                            <div class="birth">
+                                <script>
+                                    $('.birth').bootstrapBirthday({
+                                        widget: {
+                                            wrapper: {
+                                                tag: 'div',
+                                                class: 'row'
+                                            },
+                                            wrapperYear: {
+                                                use: true,
+                                                tag: 'div',
+                                                class: 'col-sm-4'
+                                            },
+                                            wrapperMonth: {
+                                                use: true,
+                                                tag: 'div',
+                                                class: 'col-sm-4'
+                                            },
+                                            wrapperDay: {
+                                                use: true,
+                                                tag: 'div',
+                                                class: 'col-sm-4'
+                                            },
+                                            selectYear: {
+                                                name: 'birthday-year',
+                                                class: 'form-control'
+                                            },
+                                            selectMonth: {
+                                                name: 'birthday-month',
+                                                class: 'form-control'
+                                            },
+                                            selectDay: {
+                                                name: 'birthday-day',
+                                                class: 'form-control'
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </div>
+
+                            <div class="input-group" style="margin-top: 20px">
+                                <select class="form-control" name="gender">
+                                    <option value="-1">-----Gender-----</option>
+                                    <option value="2">Unknown</option>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Sign up now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- end of form -->
+                </div>
+                <!-- Authentication card end -->
+            </div>
+            <!-- end of col-sm-12 -->
+        </div>
+        <!-- end of row -->
+    </div>
+    <!-- end of container-fluid -->
+</section>
+
+<script>
+    $(document).ready(function() {
+
+    });
+</script>
+
+<!-- Required Jquery -->
+<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/popper.js/popper.min.js"></script>
+<script type="text/javascript" src="js/bootstrap/js/bootstrap.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="js/jquery-slimscroll/jquery.slimscroll.js"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="js/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="js/modernizr/css-scrollbars.js"></script>
+<script type="text/javascript" src="js/common-pages.js"></script>
+</body>
+
+</html>
