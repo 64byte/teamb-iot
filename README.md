@@ -15,10 +15,13 @@
 -----------------
  - 시스템 설계
    <img src="https://github.com/64byte/teamb-iot/blob/master/resource/System_Architecture.png"></img>
- - 흐름도: https://drive.google.com/drive/folders/1iLiAPrX4twRlZDoDkcp3Yhi5uKnuCBSn
- - 데이터베이스 ERD
+
+- 흐름도: https://drive.google.com/drive/folders/1iLiAPrX4twRlZDoDkcp3Yhi5uKnuCBSn
+
+- 데이터베이스 ERD
   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/erd.png"></img>
- - Restful API 명세서: https://docs.google.com/document/d/1XRqVN9bfgP0eXDqtqHFPX3g57-_Dghw42GGNJr1QfaY/edit?usp=sharing
+
+- Restful API 명세서: https://docs.google.com/document/d/1XRqVN9bfgP0eXDqtqHFPX3g57-_Dghw42GGNJr1QfaY/edit?usp=sharing
 
 
 ### 구현
