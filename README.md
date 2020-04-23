@@ -29,19 +29,18 @@
 -----------------
 > PHP, Slim framework, JWT(Json Web Token)
   - Backend: https://github.com/64byte/teamb-iot/tree/master/apps/iot
-   > Models
-   * BoardModel: https://github.com/64byte/teamb-iot/tree/master/apps/iot/models
-   * UserModel: https://github.com/64byte/teamb-iot/blob/master/apps/iot/models/UserModel.php
+    * Models
+      * BoardModel: https://github.com/64byte/teamb-iot/tree/master/apps/iot/models
+      * UserModel: https://github.com/64byte/teamb-iot/blob/master/apps/iot/models/UserModel.php
   
-  
-   > Controller
-   * API(Rest API) Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/APIController.php
-   * Board Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/BoardController.php
-   * Index Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/IndexController.php
-   * User Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/UserController.php
-  
-  
-   > Routers: https://github.com/64byte/teamb-iot/blob/master/apps/iot/routers/v1.default.router.php
+    * Controller
+      * API(Rest API) Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/APIController.php
+      * Board Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/BoardController.php
+      * Index Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/IndexController.php
+      * User Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/UserController.php
+      
+    * Routers
+      * https://github.com/64byte/teamb-iot/blob/master/apps/iot/routers/v1.default.router.php
 
  - Frontend: https://bitbucket.org/16byte/teamb-iot/src/master/public/
    > Views: https://github.com/64byte/teamb-iot/tree/master/apps/iot/views
