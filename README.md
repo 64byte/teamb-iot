@@ -31,17 +31,17 @@
 
  - Frontend: https://bitbucket.org/16byte/teamb-iot/src/master/public/
  - Backend: https://github.com/64byte/teamb-iot/tree/master/apps/iot
-  >> Models
+   > Models
    * BoardModel: https://github.com/64byte/teamb-iot/tree/master/apps/iot/models
    * UserModel: https://github.com/64byte/teamb-iot/blob/master/apps/iot/models/UserModel.php
   
-  >> Controller
+   > Controller
    * API(Rest API) Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/APIController.php
    * Board Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/BoardController.php
    * Index Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/IndexController.php
    * User Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/UserController.php
   
-  >> Routers: https://github.com/64byte/teamb-iot/blob/master/apps/iot/routers/v1.default.router.php
+   > Routers: https://github.com/64byte/teamb-iot/blob/master/apps/iot/routers/v1.default.router.php
   
 ### 주차별 발표 자료
 -----------------
