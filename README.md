@@ -83,7 +83,12 @@
      * ForgetPassword: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/forgotPwd/forgotpwd.phtml
      * Confirm: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/forgotPwd/confirm.phtml
     
-  
+
+### 구현
+-----------------
+ - main (sign in)
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/main_page.png"></img>
+
 ### 주차별 발표 자료
 -----------------
  - 1주차: https://docs.google.com/presentation/d/1oqsBIINXGFWxJz5M1wtpwAXQXQ-OktDlyaVIFubMfas/edit?usp=sharing
