@@ -42,7 +42,7 @@
     * Routers
       * https://github.com/64byte/teamb-iot/blob/master/apps/iot/routers/v1.default.router.php
 
- - Frontend: https://bitbucket.org/16byte/teamb-iot/src/master/public/
+ - Frontend: https://github.com/64byte/teamb-iot/tree/master/public
    > Views: https://github.com/64byte/teamb-iot/tree/master/apps/iot/views
    * Index View
      * https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/index/index.phtml
