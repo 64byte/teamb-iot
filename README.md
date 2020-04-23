@@ -84,10 +84,16 @@
      * Confirm: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/forgotPwd/confirm.phtml
     
 
-### 구현
+### 구현 화면
 -----------------
- - main (sign in)
+ - Main (Sign in)
    <img src="https://github.com/64byte/teamb-iot/blob/master/resource/main_page.png"></img>
+   
+ - Sign up
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/signup_page.png"></img>
+   
+ - Forgot Password
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/forgetpwd_page.png"></img>
 
 ### 주차별 발표 자료
 -----------------
