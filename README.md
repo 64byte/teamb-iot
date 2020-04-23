@@ -30,16 +30,53 @@
 > PHP, Slim framework, JWT(Json Web Token)
 
  - Frontend: https://bitbucket.org/16byte/teamb-iot/src/master/public/
+   > Views: https://github.com/64byte/teamb-iot/tree/master/apps/iot/views
+   * Index View
+     * https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/index/index.phtml
+   
+   * Signup View
+     * Signup: https://github.com/64byte/teamb-iot/tree/master/apps/iot/views/signup
+     * Success: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/signup/success.phtml
+     * Confirm: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/signup/confirm.phtml
+     
+   * Signin View
+     * https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/signin/signin.phtml
+     
+   * Profile View
+     * Profile: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/profile/profile.phtml
+     * Boards: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/profile/boards.phtml
+     * Password: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/profile/password.phtml
+   
+   * Air Polluation View
+     * Historical AP: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/airpollution/historyap.phtml
+     * Realtime AP: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/airpollution/realtimeap.phtml
+     
+   * AQI Chart View
+     * AQI Chart: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/aqi/aqichart.phtml
+     * AQI Maps: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/aqi/aqimaps.phtml
+     * Historical AQI: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/aqi/historyaqi.phtml
+     
+   * HeartRate View
+     * Historical HR: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/heartrate/historyhr.phtml
+     * Realtime HR: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/heartrate/realtimehr.phtml
+   
+   * ForgetPassword View
+     * ForgetPassword: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/forgotPwd/forgotpwd.phtml
+     * Confirm: https://github.com/64byte/teamb-iot/blob/master/apps/iot/views/forgotPwd/confirm.phtml
+     
+ 
  - Backend: https://github.com/64byte/teamb-iot/tree/master/apps/iot
    > Models
    * BoardModel: https://github.com/64byte/teamb-iot/tree/master/apps/iot/models
    * UserModel: https://github.com/64byte/teamb-iot/blob/master/apps/iot/models/UserModel.php
+  
   
    > Controller
    * API(Rest API) Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/APIController.php
    * Board Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/BoardController.php
    * Index Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/IndexController.php
    * User Controller: https://github.com/64byte/teamb-iot/blob/master/apps/iot/controllers/UserController.php
+  
   
    > Routers: https://github.com/64byte/teamb-iot/blob/master/apps/iot/routers/v1.default.router.php
   
