@@ -6,9 +6,15 @@
 ### 요구사항 정의
 -----------------
  - 요구사항: https://trello.com/b/H4h41yy8/%EC%9A%94%EA%B5%AC-%EC%82%AC%ED%95%AD
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/req_sepc.png"></img>
+ 
  - 기능 (Trello): https://trello.com/b/4OEbonfx/function
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/function.png"></img>
+ 
  - 기능 (Text): https://docs.google.com/document/d/1zQsi_opPK-Dt2oowp8CeBQYJ6_cYFcPh2jb3af2xkm4/edit
+ 
  - 데이터베이스: https://trello.com/b/hi0eKYsd/database
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/erd_prototype.png"></img>
  
 
 ### 설계
