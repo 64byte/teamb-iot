@@ -3,7 +3,15 @@
 > Qualcomm Institute 동계 현장학습 인턴십 프로젝트
   - 사용자가 미세먼지를 측정할 수 있는 기기(Uno board)를 이용하여 미세먼지를 측정하고 안드로이드 어플리케이션과 연동하여 실시간/기록 데이터를 조회할 수 있으며 즉시 웹서버에 저장합니다. 그 때문에 어플리케이션을 이용한 조회 뿐만 아니라 웹을 통해 해당 데이터를 조회할 수 있습니다.
   (부가적으로 사용자의 심박수도 측정하여 저장 및 조회가 가능합니다)
-
+  
+  | 조회가 가능한 정보는 다음과 같습니다.
+    * 대기 데이터 (실시간/기록 정보)
+      - No2, O3, CO, PM10, PM2.5, SO2, Temperature, location information
+    * AQI(Air Quality Index) 데이터 (실시간/기록 정보) / (https://en.wikipedia.org/wiki/Air_quality_index)
+      - No2, O3, Co, PM10, PM2.5, SO2, Temperatrue, location information
+    * 심박수 (실시간/기록 정보)
+      - HeartRate, RR Interval, location information
+     
 ### 요구사항 정의
 -----------------
  - 요구사항: https://trello.com/b/H4h41yy8/%EC%9A%94%EA%B5%AC-%EC%82%AC%ED%95%AD
