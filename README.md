@@ -5,11 +5,11 @@
   (부가적으로 사용자의 심박수도 측정하여 저장 및 조회가 가능합니다)
   
   | 조회가 가능한 정보는 다음과 같습니다.
-    * 대기 데이터 (실시간/기록 정보)
+    - 대기 데이터 (실시간/기록 정보)
       - No2, O3, CO, PM10, PM2.5, SO2, Temperature, location information
-    * AQI(Air Quality Index) 데이터 (실시간/기록 정보) / (https://en.wikipedia.org/wiki/Air_quality_index)
+    - AQI(Air Quality Index) 데이터 (실시간/기록 정보) / (https://en.wikipedia.org/wiki/Air_quality_index)
       - No2, O3, Co, PM10, PM2.5, SO2, Temperatrue, location information
-    * 심박수 (실시간/기록 정보)
+    - 심박수 (실시간/기록 정보)
       - HeartRate, RR Interval, location information
      
 ### 요구사항 정의
