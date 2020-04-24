@@ -103,6 +103,9 @@
    
  - Forgot Password
    <img src="https://github.com/64byte/teamb-iot/blob/master/resource/forgetpwd_page.png"></img>
+   
+ - Main Page (Signed in)
+   <img src="https://github.com/64byte/teamb-iot/blob/master/resource/mainPage.png"></img>
 
 ### 주차별 발표 자료
 -----------------
