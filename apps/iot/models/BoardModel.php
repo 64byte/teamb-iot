@@ -228,6 +228,12 @@ class BoardModel extends Model
         return $this->getReadConnection()->lastInsertId();
     }
 
+    /**
+    * @brief Get AQI data with parameter
+    * @author Junyoung Lee
+    * @param array $fields, boolean $offset, boolean $limit, boolean $interlt, boolean $startDate, boolean $endData, boolean $lat, boolean $lng, boolean $orderby
+    * @return array
+    */
     public function getAQIData($fields, $offset = false, $limit = false, $interlt = false, $startDate = false, $endDate = false, $lat = false, $lng = false, $orderby = false)
     {
         if ($fields && is_array($fields)) {
@@ -280,6 +286,12 @@ class BoardModel extends Model
         return $sth->fetchAll();
     }
 
+    /**
+    * @brief Get AQI data with parameters (converted to CSV)
+    * @author Junyoung Lee
+    * @param array $fields, boolean $offset, boolean $limit, boolean $interlt, boolean $startDate, boolean $endData, boolean $lat, boolean $lng, boolean $orderby
+    * @return array string (file)
+    */
     public function getAQIDataCSV($offset = false, $limit = false, $interlt = false, $startDate = false, $endDate = false, $lat = false, $lng = false, $orderby = false)
     {
         $sql = 'SELECT AQIData.aqidata_id, AQIData.board_id, AQIData.pm25, AQIData.co, AQIData.o3, AQIData.no2, AQIData.so2, AQIData.latitude, AQIData.longitude, AQIData.aqidata_timestamp
@@ -335,6 +347,12 @@ class BoardModel extends Model
         return $filename;
     }
 
+    /**
+    * @brief Get Distinct AQI Data
+    * @author Junyoung Lee
+    * @param boolean $offset, boolean $limit, boolean $orderby
+    * @return array string (file)
+    */
     public function getDistinctAQIDataCSV($offset = false, $limit = false, $orderby = false)
     {
         $sql = 'select * from (select * from AQIData order by aqidata_timestamp desc) as orderedAQI group by board_id';
@@ -367,6 +385,12 @@ class BoardModel extends Model
         return $filename;
     }
 
+    /**
+    * @brief Get Distinct AQI Data with Latitude and Longitude (Converted to CSV)
+    * @author Junyoung Lee
+    * @param boolean $offset, boolean $limit, boolean $orderby, boolean $startDate, boolean $endDate, boolean $orderby
+    * @return array string (file)
+    */
     public function getDistinctLatLngAQIDataCSV($offset = false, $limit = false, $startDate = false, $endDate = false, $orderby = false)
     {
         $sql = 'select * from (select * from AQIData order by aqidata_timestamp desc) as orderedAQI group by latitude, longitude';
@@ -403,6 +427,12 @@ class BoardModel extends Model
         return $filename;
     }
 
+    /**
+    * @brief Insert AQI Data from board
+    * @author Junyoung Lee
+    * @param int $id, object $data
+    * @return int
+    */
     public function insertAQIDataOfBoard($id, $data)
     {
         $sql = 'INSERT INTO AQIData (`board_id`, `no2`, `o3`, `co`, `so2`, `pm25`, `latitude`, `longitude`, `aqidata_timestamp`)
@@ -424,6 +454,12 @@ class BoardModel extends Model
         return $this->getReadConnection()->lastInsertId();
     }
 
+    /**
+    * @brief Insert AQI Data from board with row (array)
+    * @author Junyoung Lee
+    * @param array $row
+    * @return int
+    */
     public function insertAQIDataOfBoardWithRow($row)
     {
         $sql = 'insert into AQIData (`board_id`, `no2`, `o3`, `co`, `so2`, `pm25`, `latitude`, `longitude`, `aqidata_timestamp`)
@@ -444,6 +480,12 @@ class BoardModel extends Model
         return $this->getReadConnection()->lastInsertId();
     }
 
+    /**
+    * @brief Get AQI data from Board(with board id)
+    * @author Junyoung Lee
+    * @param int $bid, array $field, boolean $offset, boolean $limit, boolean $interlt, boolean $startDate, boolean $endDate, boolean $lat, boolean $lng, boolean $orderby
+    * @return array
+    */
     public function getBoardAQIData($bid, $fields, $offset = false, $limit = false, $interlt = false, $startDate = false, $endDate = false, $lat = false, $lng = false, $orderby = false)
     {
         if ($fields && is_array($fields)) {
@@ -492,7 +534,13 @@ class BoardModel extends Model
 
         return $sth->fetchAll();
     }
-
+    
+    /**
+    * @brief Get AQI data from Board (Converted to CSV)
+    * @author Junyoung Lee
+    * @param int $bid, boolean $offset, boolean $limit, boolean $interlt, boolean $startDate, boolean $endDate, boolean $lat, boolean $lng, boolean $orderby
+    * @return array string (file)
+    */
     public function getBoardAQIDataCSV($bid, $offset = false, $limit = false, $interlt = false, $startDate = false, $endDate = false, $lat = false, $lng = false, $orderby = false)
     {
         $sql = 'SELECT AQIData.aqidata_id, AQIData.board_id, AQIData.pm25, AQIData.co, AQIData.o3, AQIData.no2, AQIData.so2, AQIData.latitude, AQIData.longitude, AQIData.aqidata_timestamp
