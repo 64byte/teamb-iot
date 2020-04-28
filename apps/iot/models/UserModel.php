@@ -5,6 +5,13 @@ use Slimvc\Core\Model;
 
 class UserModel extends Model
 {
+	
+    /**
+    * @brief Insert User data 
+    * @author Junyoung Lee
+    * @param array $data
+    * @return int
+    */
     public function insertUser($data = array())
     {
         $sql = 'INSERT INTO User (`email`, `password`, `fname`, `lname`, `birthday`, `gender`)
@@ -24,6 +31,12 @@ class UserModel extends Model
         return $this->getReadConnection()->lastInsertId();
     }
 
+    /**
+    * @brief Get all users
+    * @author Junyoung Lee
+    * @param array $fields, int $offset, int $limit
+    * @return array
+    */
     public function getAllUsers($fields = array(), $offset = 0, $limit = 10)
     {
         // TODO: we just using PDO for example here, a DAL(Database Access Layer) is strongly recommended
@@ -54,9 +67,13 @@ class UserModel extends Model
 
         return $sth->fetchAll();
     }
-
+	
     /**
-     */
+    * @brief Get User with id (primary key)
+    * @author Junyoung Lee
+    * @param int $id, array $fields
+    * @return array
+    */
     public function getUser($id, $fields = array())
     {
         if ($fields && is_array($fields)) {
@@ -78,6 +95,12 @@ class UserModel extends Model
         return $sth->fetch();
     }
 
+    /**
+    * @brief Get User with matched Email which user typed
+    * @author Junyoung Lee
+    * @param string $email, array $fields
+    * @return array
+    */
     public function getUserWithEmail($email, $fields = array())
     {
         if ($fields && is_array($fields)) {
@@ -99,6 +122,12 @@ class UserModel extends Model
         return $sth->fetch();
     }
 
+    /**
+    * @brief Update active field of user with matched Email
+    * @author Junyoung Lee
+    * @param string $email, int $value
+    * @return array
+    */
     public function updateUserActiveWithEmail($email, $value) {
         $sql = 'UPDATE User SET active = :active WHERE email = :email';
 
@@ -109,6 +138,12 @@ class UserModel extends Model
         return $sth->execute();
     }
 
+    /**
+    * @brief Update password active field of user with matched Email
+    * @author Junyoung Lee
+    * @param string $email, int $value
+    * @return array
+    */
     public function updateUserPwdActiveWithEmail($email, $value) {
      //   var_dump($email);
      //   var_dump($value);
@@ -122,6 +157,12 @@ class UserModel extends Model
         return $sth->execute();
     }
 
+    /**
+    * @brief Update password field of user with id
+    * @author Junyoung Lee
+    * @param int $id, string $value
+    * @return array
+    */
     public function updateUserPassword($id, $value)
     {
         $sql = 'UPDATE User SET password = :password WHERE user_id = :id';
@@ -133,10 +174,14 @@ class UserModel extends Model
         return $sth->execute();
     }
 
+    /**
+    * @brief Update password field of user with matched email
+    * @author Junyoung Lee
+    * @param string $email, string $value
+    * @return array
+    */
     public function updateUserPasswordWithEmail($email, $value)
     {
-    //    var_dump($email)var_dump($value);
-
         $sql = 'UPDATE User SET password = :password WHERE email = :email';
 
         $sth = $this->getReadConnection()->prepare($sql);
@@ -146,6 +191,12 @@ class UserModel extends Model
         return $sth->execute();
     }
 
+    /**
+    * @brief Delete User with id
+    * @author Junyoung Lee
+    * @param int $id
+    * @return array
+    */
     public function deleteUser($id) {
         $sql = 'DELETE FROM User WHERE user_id = :id';
 
