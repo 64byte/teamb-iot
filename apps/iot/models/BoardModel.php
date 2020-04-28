@@ -6,7 +6,11 @@ use Slimvc\Core\Model;
 class BoardModel extends Model
 {
     /**
-     */
+    * @brief Get all Boards of user
+    * @author Junyoung Lee
+    * @param array() $fields, int $offset, int $limit
+    * @return array
+    */
     public function getBoards($fields = array(), $offset = 0, $limit = 10)
     {
         if ($fields && is_array($fields)) {
@@ -37,7 +41,11 @@ class BoardModel extends Model
     }
 
     /**
-     */
+    * @brief Get board with board id(primary key)
+    * @author Junyoung Lee
+    * @param int $id, array() fields
+    * @return array
+    */
     public function getBoard($id, $fields = array())
     {
         if ($fields && is_array($fields)) {
@@ -60,6 +68,12 @@ class BoardModel extends Model
         return $sth->fetch();
     }
 
+    /**
+    * @brief Get board of user with board id(primary key)
+    * @author Junyoung Lee
+    * @param int $bid, array() fields
+    * @return array
+    */
     public function getBoardOfUser($bid, $fields = array())
     {
         if ($fields && is_array($fields)) {
@@ -82,6 +96,12 @@ class BoardModel extends Model
         return $sth->fetchAll();
     }
 
+    /**
+    * @brief Get All Air pollution data
+    * @author Junyoung Lee
+    * @param array() $fields, boolean $offset, boolean $limit, $boolean orderby
+    * @return array
+    */
     public function getAPData($fields, $offset = false, $limit = false, $orderby = false)
     {
         if ($fields && is_array($fields)) {
@@ -115,6 +135,12 @@ class BoardModel extends Model
         return $sth->fetchAll();
     }
 
+    /**
+    * @brief Get All Air pollution Data (Converted CSV format)
+    * @author Junyoung Lee
+    * @param array() $fields, boolean $offset, boolean $limit, $boolean orderby
+    * @return array() string
+    */
     public function getAPDataCSV($offset = false, $limit = false, $orderby = false)
     {
         $sql = 'SELECT APData.apdata_id, APData.board_id, APData.pm25, APData.co, APData.o3, APData.no2, APData.so2, APData.temperature, APData.latitude, APData.longitude, APData.apdata_timestamp
@@ -148,6 +174,12 @@ class BoardModel extends Model
         return $filename;
     }
 
+    /**
+    * @brief Insert air pollution data with board id and data(json)
+    * @author Junyoung Lee
+    * @param int $bid, object $data
+    * @return int
+    */
     public function insertAPDataOfBoard($bid, $data)
     {
         $sql = 'INSERT INTO APData (`board_id`, `no2`, `o3`, `co`, `so2`, `pm25`, `temperature`, `latitude`, `longitude`, `apdata_timestamp`)
@@ -168,7 +200,13 @@ class BoardModel extends Model
 
         return $this->getReadConnection()->lastInsertId();
     }
-
+    
+    /**
+    * @brief Insert air pollution data with array($row)
+    * @author Junyoung Lee
+    * @param $row
+    * @return int
+    */
     public function insertAPDataOfBoardWithRow($row)
     {
         $sql = 'insert into APData (`board_id`, `pm25`, `co`, `o3`, `no2`, `so2`, `temperature`, `latitude`, `longitude`, `apdata_timestamp`)
