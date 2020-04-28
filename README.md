@@ -44,8 +44,9 @@
 -----------------
 > Stack: PHP, Slim framework, JWT(Json Web Token), MySQL, HTML5, CSS3, Javascript, BootStrap, D3.js
   - Backend: https://github.com/64byte/teamb-iot/tree/master/apps/iot
+  
     * Models
-      * BoardModel: https://github.com/64byte/teamb-iot/tree/master/apps/iot/models
+      * BoardModel: https://github.com/64byte/teamb-iot/blob/master/apps/iot/models/BoardModel.php
       * UserModel: https://github.com/64byte/teamb-iot/blob/master/apps/iot/models/UserModel.php
   
     * Controller
