@@ -139,7 +139,7 @@ class BoardModel extends Model
     * @brief Get All Air pollution Data (Converted CSV format)
     * @author Junyoung Lee
     * @param array() $fields, boolean $offset, boolean $limit, $boolean orderby
-    * @return array() string
+    * @return string
     */
     public function getAPDataCSV($offset = false, $limit = false, $orderby = false)
     {
@@ -290,7 +290,7 @@ class BoardModel extends Model
     * @brief Get AQI data with parameters (converted to CSV)
     * @author Junyoung Lee
     * @param array $fields, boolean $offset, boolean $limit, boolean $interlt, boolean $startDate, boolean $endData, boolean $lat, boolean $lng, boolean $orderby
-    * @return array string (file)
+    * @return string (filename)
     */
     public function getAQIDataCSV($offset = false, $limit = false, $interlt = false, $startDate = false, $endDate = false, $lat = false, $lng = false, $orderby = false)
     {
@@ -351,7 +351,7 @@ class BoardModel extends Model
     * @brief Get Distinct AQI Data
     * @author Junyoung Lee
     * @param boolean $offset, boolean $limit, boolean $orderby
-    * @return array string (file)
+    * @return string (filename)
     */
     public function getDistinctAQIDataCSV($offset = false, $limit = false, $orderby = false)
     {
@@ -389,7 +389,7 @@ class BoardModel extends Model
     * @brief Get Distinct AQI Data with Latitude and Longitude (Converted to CSV)
     * @author Junyoung Lee
     * @param boolean $offset, boolean $limit, boolean $orderby, boolean $startDate, boolean $endDate, boolean $orderby
-    * @return array string (file)
+    * @return string (filename)
     */
     public function getDistinctLatLngAQIDataCSV($offset = false, $limit = false, $startDate = false, $endDate = false, $orderby = false)
     {
@@ -539,7 +539,7 @@ class BoardModel extends Model
     * @brief Get AQI data from Board (Converted to CSV)
     * @author Junyoung Lee
     * @param int $bid, boolean $offset, boolean $limit, boolean $interlt, boolean $startDate, boolean $endDate, boolean $lat, boolean $lng, boolean $orderby
-    * @return array string (file)
+    * @return string (filename)
     */
     public function getBoardAQIDataCSV($bid, $offset = false, $limit = false, $interlt = false, $startDate = false, $endDate = false, $lat = false, $lng = false, $orderby = false)
     {
